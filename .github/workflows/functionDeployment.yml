@@ -1,0 +1,42 @@
+name: Deploy AdventureWorks Azure Function
+
+on:
+  push:
+    paths: 
+      - 'AdventureWorksServerless/**'
+      - '.github/workflows/functionDeployment.yml'
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+        
+    - name: Build with dotnet
+      run: dotnet build --configuration Release --output ./fnDeploy
+      
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Deploy to Azure Functions'
+      uses: Azure/functions-action@v1
+      id: fa
+      with:
+        app-name: serverlesscms-dev
+        package: './fnDeploy'
+      
+    - name: "Set Function App Service Settings"
+      uses: azure/appservice-settings@v1
+      with:
+        app-name: 'adventureworksdemo-functions'
+        app-settings-json: '[{"name": "AZURE_SQL_HOST_NAME", "value": "${{ secrets.AZURE_SQL_HOST_NAME }}", "slotSetting": false}, {"name": "AZURE_SQL_DB_NAME", "value": "${{ secrets.AZURE_SQL_DB_NAME }}", "slotSetting": false}]'
+      id: settings
