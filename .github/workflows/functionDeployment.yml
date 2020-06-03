@@ -4,6 +4,7 @@ on:
   push:
     paths: 
       - 'AdventureWorksServerless/**'
+      - 'AdventureWorksServerless.Models/**'
       - '.github/workflows/functionDeployment.yml'
 
 jobs:
