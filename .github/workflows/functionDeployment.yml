@@ -31,7 +31,7 @@ jobs:
       uses: Azure/functions-action@v1
       id: fa
       with:
-        app-name: serverlesscms-dev
+        app-name: 'adventureworksdemo-functions'
         package: './fnDeploy'
       
     - name: "Set Function App Service Settings"
