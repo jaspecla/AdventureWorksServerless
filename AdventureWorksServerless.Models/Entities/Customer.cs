@@ -23,7 +23,9 @@ namespace AdventureWorksServerless.Models.Entities
     public string SalesPerson { get; set; }
     public string EmailAddress { get; set; }
     public string Phone { get; set; }
+    [JsonIgnore]
     public string PasswordHash { get; set; }
+    [JsonIgnore]
     public string PasswordSalt { get; set; }
     public Guid Rowguid { get; set; }
     public DateTime ModifiedDate { get; set; }
