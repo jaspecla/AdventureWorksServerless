@@ -11,17 +11,18 @@ using Microsoft.EntityFrameworkCore.Internal;
 using AdventureWorksServerless.Models.Entities;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AdventureWorksServerless.Data;
 
 namespace AdventureWorksServerless
 {
   public class OrderDetail
   {
 
-    private readonly AdventureWorksContext _dbContext;
+    private readonly AdventureWorksDataRepository _repository;
 
-    public OrderDetail(AdventureWorksContext dbContext)
+    public OrderDetail(AdventureWorksDataRepository repository)
     {
-      _dbContext = dbContext;
+      _repository = repository;
     }
     [FunctionName("OrderDetail")]
     public IActionResult Run(
@@ -39,13 +40,7 @@ namespace AdventureWorksServerless
 
       log.LogInformation($"OrderDetail looking for order {orderNumber}");
 
-      var order = _dbContext.SalesOrderHeader
-        .Where(order => order.SalesOrderNumber == orderNumber)
-        .Include(order => order.SalesOrderDetail)
-        .Include(order => order.Customer)
-        .Include(order => order.BillToAddress)
-        .Include(order => order.ShipToAddress)
-        .FirstOrDefault();
+      var order = _repository.GetOrderFromOrderNumber(orderNumber);
 
       if (order == null)
       {

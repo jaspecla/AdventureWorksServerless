@@ -1,4 +1,5 @@
-﻿using AdventureWorksServerless.Models.Entities;
+﻿using AdventureWorksServerless.Data;
+using AdventureWorksServerless.Models.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -25,6 +26,8 @@ namespace AdventureWorksServerless
       {
         options.UseSqlServer(sqlConnection);
       });
+
+      builder.Services.AddScoped<AdventureWorksDataRepository>();
     }
   }
 }
