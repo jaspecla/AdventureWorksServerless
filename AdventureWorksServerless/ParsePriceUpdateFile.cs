@@ -21,10 +21,10 @@ using Newtonsoft.Json.Serialization;
 
 namespace AdventureWorksServerless
 {
-  public static class ParsePriceUpdateFile
+  public class ParsePriceUpdateFile
   {
     [FunctionName("ParsePriceUpdateFile")]
-    public static async Task Run([EventGridTrigger] EventGridEvent eventGridEvent, ILogger log)
+    public async Task Run([EventGridTrigger] EventGridEvent eventGridEvent, ILogger log)
     {
       log.LogInformation(eventGridEvent.Data.ToString());
 
@@ -46,7 +46,7 @@ namespace AdventureWorksServerless
       var builder = new ServiceBusConnectionStringBuilder();
       builder.Authentication = AuthenticationType.ManagedIdentity;
       builder.Endpoint = Environment.GetEnvironmentVariable("SERVICE_BUS_URL");
-      builder.EntityPath = "/priceupdates";
+      builder.EntityPath = $"/{Environment.GetEnvironmentVariable("PRICE_UPDATE_QUEUE_NAME")}";
 
       var queueClient = new QueueClient(builder);
 
