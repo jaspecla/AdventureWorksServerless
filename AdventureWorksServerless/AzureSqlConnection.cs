@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Services.AppAuthentication;
+﻿using Azure.Core;
+using Azure.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -11,9 +12,9 @@ namespace AdventureWorksServerless
   {
     public static async Task<SqlConnection> GetSqlConnectionAsync(string dbServer, string dbName)
 		{
-			var resource = "https://database.windows.net/";
-			var tokenProvider = new AzureServiceTokenProvider();
-			var token = await tokenProvider.GetAccessTokenAsync(resource);
+			var resource = "https://database.windows.net/.default";
+			var cred = new DefaultAzureCredential();
+			var token = await cred.GetTokenAsync(new TokenRequestContext(new[] { resource }));
 
 			var builder = new SqlConnectionStringBuilder();
 			builder["Data Source"] = $"{dbServer}.database.windows.net";
@@ -25,7 +26,7 @@ namespace AdventureWorksServerless
 			builder["MultipleActiveResultSets"] = false;
 
 			var con = new SqlConnection(builder.ToString());
-			con.AccessToken = token;
+			con.AccessToken = token.Token;
 			return con;
 		}
   }
