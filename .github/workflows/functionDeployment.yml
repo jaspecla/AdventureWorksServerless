@@ -43,6 +43,6 @@ jobs:
           [{"name": "AZURE_SQL_HOST_NAME", "value": "${{ secrets.AZURE_SQL_HOST_NAME }}", "slotSetting": false},
           {"name": "AZURE_SQL_DB_NAME", "value": "${{ secrets.AZURE_SQL_DB_NAME }}", "slotSetting": false},
           {"name": "SERVICE_BUS_URL", "value": "${{ secrets.SERVICE_BUS_URL }}", "slotSetting": false},
-          {"name": "PRICE_UPDATE_QUEUE_NAME", "value": "${{ secrets.PRICE_UPDATE_QUEUE_NAME }}", "slotSetting": false},
+          {"name": "PRICE_UPDATE_QUEUE_NAME", "value": "${{ secrets.PRICE_UPDATE_QUEUE_NAME }}", "slotSetting": false}
           ]
       id: settings
