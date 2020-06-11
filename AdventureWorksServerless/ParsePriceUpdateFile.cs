@@ -45,7 +45,7 @@ namespace AdventureWorksServerless
 
       var builder = new ServiceBusConnectionStringBuilder();
       builder.Authentication = AuthenticationType.ManagedIdentity;
-      builder.Endpoint = "https://adventureworksdemosb.servicebus.windows.net";
+      builder.Endpoint = Environment.GetEnvironmentVariable("SERVICE_BUS_URL");
       builder.EntityPath = "/priceupdates";
 
       var queueClient = new QueueClient(builder);

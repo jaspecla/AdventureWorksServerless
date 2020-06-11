@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventureWorksServerless", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdventureWorksServerless.Models", "AdventureWorksServerless.Models\AdventureWorksServerless.Models.csproj", "{7E363E00-988B-40B1-9BB6-DA328F3E9C89}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{D1D9AE8A-35C2-4956-BBCB-C0597B4EB716}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\functionDeployment.yml = .github\workflows\functionDeployment.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

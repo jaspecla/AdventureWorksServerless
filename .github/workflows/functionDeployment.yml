@@ -39,5 +39,9 @@ jobs:
       uses: azure/appservice-settings@v1
       with:
         app-name: 'adventureworksdemo-functions'
-        app-settings-json: '[{"name": "AZURE_SQL_HOST_NAME", "value": "${{ secrets.AZURE_SQL_HOST_NAME }}", "slotSetting": false}, {"name": "AZURE_SQL_DB_NAME", "value": "${{ secrets.AZURE_SQL_DB_NAME }}", "slotSetting": false}]'
+        app-settings-json: >-
+          [{"name": "AZURE_SQL_HOST_NAME", "value": "${{ secrets.AZURE_SQL_HOST_NAME }}", "slotSetting": false},
+          {"name": "AZURE_SQL_DB_NAME", "value": "${{ secrets.AZURE_SQL_DB_NAME }}", "slotSetting": false},
+          {"name": "SERVICE_BUS_URL", "value": "${{ secrets.SERVICE_BUS_URL }}", "slotSetting": false}
+          ]
       id: settings
