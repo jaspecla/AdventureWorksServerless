@@ -16,18 +16,8 @@ namespace AdventureWorksServerless
   {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-
-      var dbHostName = Environment.GetEnvironmentVariable("AZURE_SQL_HOST_NAME");
-      var dbName = Environment.GetEnvironmentVariable("AZURE_SQL_DB_NAME");
-
-      var sqlConnection = AzureSqlConnection.GetSqlConnectionAsync(dbHostName, dbName).Result;
-
-      builder.Services.AddDbContext<AdventureWorksContext>(options =>
-      {
-        options.UseSqlServer(sqlConnection);
-      });
-
-      builder.Services.AddScoped<AdventureWorksDataRepository>();
+      builder.Services.AddSingleton<AdventureWorksContextFactory>();
+      builder.Services.AddSingleton<AdventureWorksDataRepository>();
     }
   }
 }

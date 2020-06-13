@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using AdventureWorksServerless.Data;
 using System.Text.RegularExpressions;
+using AdventureWorksServerless.Models.Entities;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdventureWorksServerless
 {
@@ -62,7 +65,7 @@ namespace AdventureWorksServerless
         return new NotFoundObjectResult("Could not find a sales order number in the email.");
       }
 
-      var salesOrder = _repository.GetOrderFromOrderNumber(salesOrderNumber);
+      var salesOrder = await _repository.GetOrderFromOrderNumberAsync(salesOrderNumber);
 
       if (salesOrder == null)
       {

@@ -7,6 +7,6 @@ namespace AdventureWorksServerless.Data
   public class PriceUpdate
   {
     public int ProductId { get; set; }
-    public float NewPrice { get; set; }
+    public decimal NewPrice { get; set; }
   }
 }

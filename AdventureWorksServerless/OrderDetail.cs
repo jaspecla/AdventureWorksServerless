@@ -25,7 +25,7 @@ namespace AdventureWorksServerless
       _repository = repository;
     }
     [FunctionName("OrderDetail")]
-    public IActionResult Run(
+    public async Task<IActionResult> Run(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
         ILogger log)
     {
@@ -40,7 +40,7 @@ namespace AdventureWorksServerless
 
       log.LogInformation($"OrderDetail looking for order {orderNumber}");
 
-      var order = _repository.GetOrderFromOrderNumber(orderNumber);
+      var order =  await _repository.GetOrderFromOrderNumberAsync(orderNumber);
 
       if (order == null)
       {

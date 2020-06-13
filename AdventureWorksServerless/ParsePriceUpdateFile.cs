@@ -43,10 +43,10 @@ namespace AdventureWorksServerless
 
       var blob = response.Value;
 
-      var builder = new ServiceBusConnectionStringBuilder();
-      builder.Authentication = AuthenticationType.ManagedIdentity;
-      builder.Endpoint = Environment.GetEnvironmentVariable("SERVICE_BUS_URL");
-      builder.EntityPath = $"/{Environment.GetEnvironmentVariable("PRICE_UPDATE_QUEUE_NAME")}";
+      var builder = new ServiceBusConnectionStringBuilder(Environment.GetEnvironmentVariable("SERVICE_BUS_CONNECTION_STRING"))
+      {
+        EntityPath = $"/{Environment.GetEnvironmentVariable("PRICE_UPDATE_QUEUE_NAME")}"
+      };
 
       var queueClient = new QueueClient(builder);
 
@@ -59,7 +59,7 @@ namespace AdventureWorksServerless
         var newPriceStr = words[1];
 
         int productId;
-        float newPrice;
+        decimal newPrice;
 
         if (!int.TryParse(productIdStr, out productId))
         {
@@ -67,7 +67,7 @@ namespace AdventureWorksServerless
           continue;
         }
 
-        if (!float.TryParse(newPriceStr, out newPrice))
+        if (!decimal.TryParse(newPriceStr, out newPrice))
         {
           log.LogError($"Could not get New Price from line {line}.");
           continue;
