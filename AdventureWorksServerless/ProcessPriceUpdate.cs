@@ -43,15 +43,6 @@ namespace AdventureWorksServerless
 
       log.LogInformation($"Updating price of product {priceUpdate.ProductId} to ${priceUpdate.NewPrice}");
 
-      //var productToUpdate = _repository.GetProductFromProductId(priceUpdate.ProductId);
-
-      //if (productToUpdate == null)
-      //{
-      //  log.LogError($"Could not find product with id ${priceUpdate.ProductId} in the database, sending to error queue.");
-      //  await errorQueueClient.SendAsync(new Message(Encoding.UTF8.GetBytes(priceUpdateQueueMessage)));
-      //  return;
-      //}
-
       try
       {
         await _repository.UpdateProductWithPriceAsync(priceUpdate.ProductId, priceUpdate.NewPrice);

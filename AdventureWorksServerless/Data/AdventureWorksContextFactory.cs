@@ -49,8 +49,18 @@ namespace AdventureWorksServerless.Data
     {
       var connection = await CreateSqlConnection();
 
+      // NOTE: Since we're using Azure SQL in Serverless mode, we need to implement
+      // retry logic.  When the database is in an auto-paused state, the first login will
+      // return an error, but will unpause the database for future connections.
       var options = new DbContextOptionsBuilder<AdventureWorksContext>()
-        .UseSqlServer(connection)
+        .UseSqlServer(connection, sqlOptions =>
+        {
+          sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 10,
+            maxRetryDelay: TimeSpan.FromSeconds(30),
+            errorNumbersToAdd: null
+            );
+        })
         .Options;
 
       var dbContext = new AdventureWorksContext(options);
