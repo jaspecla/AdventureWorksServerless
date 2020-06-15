@@ -25,7 +25,7 @@ namespace AdventureWorksServerless
       _repository = repository;
     }
     [FunctionName("OrderDetail")]
-    public async Task<IActionResult> Run(
+    public async Task<JsonResult> Run(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
         ILogger log)
     {
@@ -35,7 +35,9 @@ namespace AdventureWorksServerless
 
       if (string.IsNullOrEmpty(orderNumber))
       {
-        return new BadRequestObjectResult("OrderDetail must be called with an order number.");
+        var result = new JsonResult("OrderDetail must be called with an order number", AdventureWorksSerializerSettings.Get());
+        result.StatusCode = StatusCodes.Status400BadRequest;
+        return result;
       }
 
       log.LogInformation($"OrderDetail looking for order {orderNumber}");
@@ -44,10 +46,12 @@ namespace AdventureWorksServerless
 
       if (order == null)
       {
-        return new NotFoundObjectResult($"Could not find order with order number {orderNumber}");
+        var result = new JsonResult($"Could not find order with order number {orderNumber}", AdventureWorksSerializerSettings.Get());
+        result.StatusCode = StatusCodes.Status404NotFound;
+        return result;
       }
 
-      return new OkObjectResult(order);
+      return new JsonResult(order, AdventureWorksSerializerSettings.Get());
     }
   }
 }

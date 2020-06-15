@@ -25,7 +25,7 @@ namespace AdventureWorksServerless
       _repository = repository;
     }
     [FunctionName("OrderFromEmail")]
-    public async Task<IActionResult> Run(
+    public async Task<JsonResult> Run(
         [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
         ILogger log)
     {
@@ -37,7 +37,9 @@ namespace AdventureWorksServerless
 
       if (email == null)
       {
-        return new BadRequestObjectResult("Could not get email contents from post body.");
+        var result = new JsonResult("Could not get email contents from post body.", AdventureWorksSerializerSettings.Get());
+        result.StatusCode = StatusCodes.Status400BadRequest;
+        return result;
       }
 
       var salesOrderPattern = @"SO\d{5}\b";
@@ -62,17 +64,21 @@ namespace AdventureWorksServerless
 
       if (string.IsNullOrEmpty(salesOrderNumber))
       {
-        return new NotFoundObjectResult("Could not find a sales order number in the email.");
+        var result = new JsonResult("Could not find a sales order number in the email.", AdventureWorksSerializerSettings.Get());
+        result.StatusCode = StatusCodes.Status400BadRequest;
+        return result;
       }
 
       var salesOrder = await _repository.GetOrderFromOrderNumberAsync(salesOrderNumber);
 
       if (salesOrder == null)
       {
-        return new NotFoundObjectResult($"Could not find sales order with order number {salesOrderNumber}");
+        var result = new JsonResult($"Could not find sales order with order number {salesOrderNumber}", AdventureWorksSerializerSettings.Get());
+        result.StatusCode = StatusCodes.Status404NotFound;
+        return result;
       }
 
-      return new OkObjectResult(salesOrder);
+      return new JsonResult(salesOrder, AdventureWorksSerializerSettings.Get());
     }
   }
 }

@@ -31,7 +31,6 @@ namespace AdventureWorksServerless.Models.Entities
     public DateTime ModifiedDate { get; set; }
 
     public virtual ICollection<CustomerAddress> CustomerAddress { get; set; }
-    [JsonIgnore]
     public virtual ICollection<SalesOrderHeader> SalesOrderHeader { get; set; }
   }
 }

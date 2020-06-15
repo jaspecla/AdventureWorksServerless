@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace AdventureWorksServerless.Data
 
     public async Task<SalesOrderHeader> GetOrderFromOrderNumberAsync(string orderNumber)
     {
-      SalesOrderHeader order;
+      SalesOrderHeader order = new SalesOrderHeader();
 
       using (var dbContext = await _dbContextFactory.CreateAsync())
       {
@@ -59,5 +60,19 @@ namespace AdventureWorksServerless.Data
 
       return product;
     }
+    public async Task<IEnumerable<WeeklySpecial>> GetWeeklySpecials()
+    {
+      IEnumerable<WeeklySpecial> specials;
+
+      using (var dbContext = await _dbContextFactory.CreateAsync())
+      {
+        specials = await dbContext.WeeklySpecial
+          .Include(special => special.Product)
+          .ToArrayAsync();
+      }
+
+      return specials;
+    }
+
   }
 }

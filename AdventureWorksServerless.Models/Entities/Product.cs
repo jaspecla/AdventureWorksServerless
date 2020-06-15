@@ -8,6 +8,7 @@ namespace AdventureWorksServerless.Models.Entities
         public Product()
         {
             SalesOrderDetail = new HashSet<SalesOrderDetail>();
+            WeeklySpecial = new HashSet<WeeklySpecial>();
         }
 
         public int ProductId { get; set; }
@@ -31,5 +32,6 @@ namespace AdventureWorksServerless.Models.Entities
         public virtual ProductCategory ProductCategory { get; set; }
         public virtual ProductModel ProductModel { get; set; }
         public virtual ICollection<SalesOrderDetail> SalesOrderDetail { get; set; }
+        public virtual ICollection<WeeklySpecial> WeeklySpecial { get; set; }
     }
 }

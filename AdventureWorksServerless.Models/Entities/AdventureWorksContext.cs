@@ -30,14 +30,11 @@ namespace AdventureWorksServerless.Models.Entities
         public virtual DbSet<VGetAllCategories> VGetAllCategories { get; set; }
         public virtual DbSet<VProductAndDescription> VProductAndDescription { get; set; }
         public virtual DbSet<VProductModelCatalogDescription> VProductModelCatalogDescription { get; set; }
+        public virtual DbSet<WeeklySpecial> WeeklySpecial { get; set; }
 
-//        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//        {
-//            if (!optionsBuilder.IsConfigured)
-//            {
-//                optionsBuilder.UseSqlServer("");
-//            }
-//        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -649,6 +646,21 @@ namespace AdventureWorksServerless.Models.Entities
                 entity.Property(e => e.WarrantyPeriod).HasMaxLength(256);
 
                 entity.Property(e => e.Wheel).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<WeeklySpecial>(entity =>
+            {
+                entity.HasKey(e => e.SpecialId);
+
+                entity.ToTable("WeeklySpecial", "SalesLT");
+
+                entity.Property(e => e.SalePrice).HasColumnType("money");
+
+                entity.HasOne(d => d.Product)
+                    .WithMany(p => p.WeeklySpecial)
+                    .HasForeignKey(d => d.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_WeeklySpecial_Product1");
             });
 
             modelBuilder.HasSequence<int>("SalesOrderNumber", "SalesLT");
