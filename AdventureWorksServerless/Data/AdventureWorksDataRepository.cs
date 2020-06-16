@@ -27,6 +27,7 @@ namespace AdventureWorksServerless.Data
         order = await dbContext.SalesOrderHeader
           .Where(order => order.SalesOrderNumber == orderNumber)
           .Include(order => order.SalesOrderDetail)
+            .ThenInclude(sod => sod.Product)
           .Include(order => order.Customer)
           .Include(order => order.BillToAddress)
           .Include(order => order.ShipToAddress)
