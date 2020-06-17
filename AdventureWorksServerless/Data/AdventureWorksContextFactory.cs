@@ -57,7 +57,7 @@ namespace AdventureWorksServerless.Data
         {
           sqlOptions.EnableRetryOnFailure(
             maxRetryCount: 10,
-            maxRetryDelay: TimeSpan.FromSeconds(30),
+            maxRetryDelay: TimeSpan.FromSeconds(120),
             errorNumbersToAdd: null
             );
         })
