@@ -44,6 +44,7 @@ jobs:
           {"name": "AZURE_SQL_DB_NAME", "value": "${{ secrets.AZURE_SQL_DB_NAME }}", "slotSetting": false},
           {"name": "SERVICE_BUS_CONNECTION_STRING", "value": "${{ secrets.SERVICE_BUS_CONNECTION_STRING }}", "slotSetting": false},
           {"name": "PRICE_UPDATE_QUEUE_NAME", "value": "${{ secrets.PRICE_UPDATE_QUEUE_NAME }}", "slotSetting": false},
-          {"name": "PRICE_UPDATE_ERROR_QUEUE_NAME", "value": "${{ secrets.PRICE_UPDATE_ERROR_QUEUE_NAME }}", "slotSetting": false}
+          {"name": "PRICE_UPDATE_ERROR_QUEUE_NAME", "value": "${{ secrets.PRICE_UPDATE_ERROR_QUEUE_NAME }}", "slotSetting": false},
+          {"name": "AzureSignalRConnectionString", "value": "${{ secrets.SIGNALR_CONNECTION_STRING }}", "slotSetting": false}
           ]
       id: settings
